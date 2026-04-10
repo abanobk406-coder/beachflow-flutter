@@ -5,6 +5,7 @@ import 'package:por2/Home_Screen.dart';
 import 'package:por2/features/auth/presentation/screens/forget_password/forget_password_screen.dart';
 import 'package:por2/login/cubit/login_states.dart';
 import 'package:por2/login/cubit/login_view_model.dart';
+import 'package:por2/shared_preferences/shared_preferences.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -50,6 +51,9 @@ class _LoginPageState extends State<LoginPage> {
               child: BlocConsumer<LoginViewModel, LoginStates>(
                 listener: (context, state) {
                   if (state is LoginSuccessState) {
+                      
+                    SharedPreferencesUtils.setToken(key: 'token', value: state.loginResponse.token??'');
+                   
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
