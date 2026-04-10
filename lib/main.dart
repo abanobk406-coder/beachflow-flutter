@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:por2/Home_Screen.dart';
 import 'package:por2/app_routes.dart';
 import 'package:por2/config/di.dart';
 import 'package:por2/features/auth/presentation/screens/forget_password/forget_password_screen.dart';
@@ -68,14 +69,14 @@ class _MyAppState extends State<MyApp> {
      routes: {
       AppRoutes.forgetPassword:(context)=>ForgetPasswordScreen(),
       AppRoutes.resetCode:(context)=>CheckYourEmailScreen(),
-      AppRoutes.passwordResetScreen:(context)=>PasswordResetScreen(),
+     // AppRoutes.passwordResetScreen:(context)=>PasswordResetScreen(),
       AppRoutes.setNewPasswordScreen:(context)=>SetNewPasswordScreen(),
       AppRoutes.successScreen:(context)=>SuccessScreen(),
       AppRoutes.loginScreen:(context)=>LoginPage(),
      },
 
       home: _showHome
-          ? const LoginPage()
+          ? const HomeScreen()
           : OnboardingWrapper(onComplete: _completeOnboarding),
     );
   }

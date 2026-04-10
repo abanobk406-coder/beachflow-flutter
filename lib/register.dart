@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:por2/login.dart';
+import 'package:por2/login/login_page.dart';
 import 'dart:convert';
 import 'Otp.dart';
 
@@ -202,7 +203,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginScreen(),
+                            builder: (context) => LoginPage(),
                           ),
                         );
                       },

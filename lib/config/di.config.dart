@@ -18,6 +18,8 @@ import '../api/api_services.dart' as _i124;
 import '../api/data_sources/remote/forget_password_remote_data_source_impl.dart'
     as _i273;
 import '../api/data_sources/remote/login_remote_data_source_impl.dart' as _i524;
+import '../api/data_sources/remote/resend_otp_remote_data_source_impl.dart'
+    as _i642;
 import '../api/data_sources/remote/reset_code_remote_data_source_impl.dart'
     as _i524;
 import '../api/data_sources/remote/reset_password_remote_data_source_impl.dart'
@@ -26,20 +28,24 @@ import '../api/dio/dio_module.dart' as _i223;
 import '../data/data_sources/remote/forget_password_remote_data_source.dart'
     as _i144;
 import '../data/data_sources/remote/login_remote_data_source.dart' as _i166;
+import '../data/data_sources/remote/resend_otp_remote_data_source.dart' as _i51;
 import '../data/data_sources/remote/reset_code_resmot_data_source.dart'
     as _i753;
 import '../data/data_sources/remote/reset_password_remote_data_source.dart'
     as _i825;
 import '../data/repositories/forget_password_repository_impl.dart' as _i924;
 import '../data/repositories/login_repository_impl.dart' as _i741;
+import '../data/repositories/resend_otp_repository_impl.dart' as _i963;
 import '../data/repositories/reset_code_repository_impl.dart' as _i95;
 import '../data/repositories/reset_password_repository_impl.dart' as _i452;
 import '../domain/repositories/forget_password_repository.dart' as _i1053;
 import '../domain/repositories/login_repository.dart' as _i907;
+import '../domain/repositories/resent_otp_repository.dart' as _i875;
 import '../domain/repositories/reset_code_repository.dart' as _i714;
 import '../domain/repositories/reset_password_repository.dart' as _i482;
 import '../domain/use_case/forget_password_use_case.dart' as _i349;
 import '../domain/use_case/login_use_case.dart' as _i772;
+import '../domain/use_case/resend_otp_use_case.dart' as _i1005;
 import '../domain/use_case/reset_code_use_case.dart' as _i876;
 import '../domain/use_case/reset_password_use_case.dart' as _i276;
 import '../features/auth/presentation/screens/forget_password/cubit/forget_password_view_model.dart'
@@ -90,19 +96,24 @@ extension GetItInjectableX on _i174.GetIt {
         apiServices: gh<_i124.ApiServices>(),
       ),
     );
+    gh.factory<_i51.ResendOtpRemoteDataSource>(
+      () => _i642.ResendOtpRemoteDataSourceImpl(
+        apiServices: gh<_i124.ApiServices>(),
+      ),
+    );
     gh.factory<_i714.ResetCodeRepository>(
       () => _i95.ResetCodeRepositoryImpl(
         resetCodeResmotDataSource: gh<_i753.ResetCodeResmotDataSource>(),
       ),
     );
+    gh.factory<_i875.ResentOtpRepository>(
+      () => _i963.ResendOtpRepositoryImpl(
+        resendOtpRemoteDataSource: gh<_i51.ResendOtpRemoteDataSource>(),
+      ),
+    );
     gh.factory<_i876.ResetCodeUseCase>(
       () => _i876.ResetCodeUseCase(
         resetCodeRepository: gh<_i714.ResetCodeRepository>(),
-      ),
-    );
-    gh.factory<_i902.ResetCodeViewModel>(
-      () => _i902.ResetCodeViewModel(
-        resetCodeUseCase: gh<_i876.ResetCodeUseCase>(),
       ),
     );
     gh.factory<_i1053.ForgetPasswordRepository>(
@@ -122,6 +133,11 @@ extension GetItInjectableX on _i174.GetIt {
             gh<_i825.ResetPasswordRemoteDataSource>(),
       ),
     );
+    gh.factory<_i1005.ResendOtpUseCase>(
+      () => _i1005.ResendOtpUseCase(
+        resentOtpRepository: gh<_i875.ResentOtpRepository>(),
+      ),
+    );
     gh.factory<_i349.ForgetPasswordUseCase>(
       () => _i349.ForgetPasswordUseCase(
         forgetPasswordRepository: gh<_i1053.ForgetPasswordRepository>(),
@@ -129,6 +145,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i772.LoginUseCase>(
       () => _i772.LoginUseCase(loginRepository: gh<_i907.LoginRepository>()),
+    );
+    gh.factory<_i902.ResetCodeViewModel>(
+      () => _i902.ResetCodeViewModel(
+        resetCodeUseCase: gh<_i876.ResetCodeUseCase>(),
+        resendOtpUseCase: gh<_i1005.ResendOtpUseCase>(),
+      ),
     );
     gh.factory<_i276.ResetPasswordUseCase>(
       () => _i276.ResetPasswordUseCase(
