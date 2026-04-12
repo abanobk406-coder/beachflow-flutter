@@ -17,112 +17,127 @@ class SetNewPasswordScreen extends StatefulWidget {
 }
 
 class _SetNewPasswordScreenState extends State<SetNewPasswordScreen> {
+  String? validateConfirmPassword(String password, String confirmPassword) {
+    if (confirmPassword.isEmpty) {
+      return 'يرجى تأكيد كلمة المرور';
+    }
 
+    if (password != confirmPassword) {
+      return 'كلمات المرور غير متطابقة';
+    }
 
-
- String? validateConfirmPassword(String password, String confirmPassword) {
-  if (confirmPassword.isEmpty) {
-    return 'Please confirm your password';
+    return null;
   }
 
-  if (password != confirmPassword) {
-    return 'Passwords do not match';
-  }
-
-  return null;
-}
-
-bool _isPasswordValid(String password) {
+  bool _isPasswordValid(String password) {
     return password.length >= 6;
   }
 
-
-
-  NewPasswordViewModel viewModel=getIt<NewPasswordViewModel>();
+  NewPasswordViewModel viewModel = getIt<NewPasswordViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    String email=ModalRoute.of(context)!.settings.arguments as String;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const AuthAppBar(),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: BlocProvider(
-           create: (_) => viewModel,
-            child: Form(
-              key: viewModel.formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Set a new password',
-                    style: TextStyle(
-                      fontSize: 26,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+    String email = ModalRoute.of(context)!.settings.arguments as String;
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: const AuthAppBar(),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: BlocProvider(
+              create: (_) => viewModel,
+              child: Form(
+                key: viewModel.formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 16),
+                    const Text(
+                      'تعيين كلمة مرور جديدة',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.right,
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text(
-                    'Create a new password. Ensure it differs from previous ones for security',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.black54,
-                      height: 1.5,
+                    const SizedBox(height: 12),
+                    const Text(
+                      'أدخل كلمة مرور جديدة، تأكد من اختلافها عن كلمات المرور السابقة للأمان',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black54,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.right,
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                   CustomTextField(
-                    label: 'Password',
-                    hintText: 'Enter your new password',
-                    isPassword: true,
-                    controller: viewModel.passwordController,
-                    suffixIcon: Icon(Icons.visibility_off_outlined, color: Colors.black45),
-                    validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Password required';
-                            }
-                            if (!_isPasswordValid(value)) {
-                              return 'Min 6 chars';
-                            }
-                            return null;
-                          },
-                  ),
-                  const SizedBox(height: 24),
-                   CustomTextField(
-                    label: 'Confirm password',
-                    hintText: 'Re-enter password',
-                    isPassword: true,
-                    validator: (value){
-                     return validateConfirmPassword(viewModel.passwordController.text,value!);
-                    },
-                    suffixIcon: Icon(Icons.visibility_off_outlined, color: Colors.black45),
-                  ),
-                  const SizedBox(height: 32),
-                  BlocConsumer<NewPasswordViewModel,NewPasswordStates>(
-                    listener: (context, state) {
-                      if(state is NewPasswordErrorState){
-                        ScaffoldMessenger.of(context).showSnackBar(
-                         SnackBar(
-                          content: Text(state.message),
-                        ),
-                      );
-                      }else if(state is NewPasswordSuccessState){
-                          Navigator.pushReplacementNamed(context, AppRoutes.successScreen);
-                      }
-                    },
-                    builder:(context, state) => CustomButton(
-                      text: 'Submit',
-                      isLoading: state is NewPasswordLoadingState,
-                      onPressed: () {
-                        viewModel.resetPassword(email: email);
+                    const SizedBox(height: 32),
+                    CustomTextField(
+                      label: 'كلمة المرور',
+                      hintText: 'أدخل كلمة المرور الجديدة',
+                      isPassword: true,
+                      controller: viewModel.passwordController,
+                      suffixIcon: Icon(
+                        Icons.visibility_off_outlined,
+                        color: Colors.black45,
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'كلمة المرور مطلوبة';
+                        }
+                        if (!_isPasswordValid(value)) {
+                          return 'بطول 6 أحرف على الأقل';
+                        }
+                        return null;
                       },
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                    CustomTextField(
+                      label: 'تأكيد كلمة المرور',
+                      hintText: 'أعد إدخال كلمة المرور',
+                      isPassword: true,
+                      validator: (value) {
+                        return validateConfirmPassword(
+                          viewModel.passwordController.text,
+                          value!,
+                        );
+                      },
+                      suffixIcon: Icon(
+                        Icons.visibility_off_outlined,
+                        color: Colors.black45,
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    BlocConsumer<NewPasswordViewModel, NewPasswordStates>(
+                      listener: (context, state) {
+                        if (state is NewPasswordErrorState) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                state.message,
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          );
+                        } else if (state is NewPasswordSuccessState) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRoutes.successScreen,
+                          );
+                        }
+                      },
+                      builder: (context, state) => CustomButton(
+                        text: 'تأكيد',
+                        isLoading: state is NewPasswordLoadingState,
+                        onPressed: () {
+                          viewModel.resetPassword(email: email);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

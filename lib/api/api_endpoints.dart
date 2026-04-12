@@ -1,6 +1,6 @@
 class ApiEndpoints {
 
-  static const String baseUrl='https://beachflow-app-production-7bce.up.railway.app/';
+  static const String baseUrl='https://beachflow-app-production-3e1a.up.railway.app';
   static const String loginApi='api/auth/login';
 
   static const String forgetPasswordApi='api/auth/forgot-password';

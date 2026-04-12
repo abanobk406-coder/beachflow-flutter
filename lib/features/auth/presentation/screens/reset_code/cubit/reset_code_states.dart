@@ -1,41 +1,32 @@
-
 import 'package:por2/domain/entities/response/resend_otp_response.dart';
 import 'package:por2/domain/entities/response/reset_code_response.dart';
 
 abstract class ResetCodeStates {}
 
-class ResetCodeInitState extends ResetCodeStates{}
+class ResetCodeInitState extends ResetCodeStates {}
 
-class ResetCodeLoadingState extends ResetCodeStates{}
+class ResetCodeLoadingState extends ResetCodeStates {}
 
-class ResetCodeErrorState extends ResetCodeStates{
+class ResetCodeErrorState extends ResetCodeStates {
   String message;
 
   ResetCodeErrorState({required this.message});
 }
 
-class ResetCodeSuccessState extends ResetCodeStates{
-  
+class ResetCodeSuccessState extends ResetCodeStates {
   ResetCodeResponse response;
 
   ResetCodeSuccessState({required this.response});
-
-
 }
 
-
-
-class ResendOtpErrorState extends ResetCodeStates{
+class ResendOtpErrorState extends ResetCodeStates {
   String message;
 
   ResendOtpErrorState({required this.message});
 }
 
-class ResendOtpSuccessState extends ResetCodeStates{
-  
+class ResendOtpSuccessState extends ResetCodeStates {
   ResendOtpResponse response;
 
   ResendOtpSuccessState({required this.response});
-
-
 }
