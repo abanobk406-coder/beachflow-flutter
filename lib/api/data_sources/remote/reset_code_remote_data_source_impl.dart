@@ -22,9 +22,10 @@ class ResetCodeRemoteDataSourceImpl implements ResetCodeResmotDataSource{
   var response=await apiServices.verifyResetCode(resetCodeRequest.toResetCodeRequestDto());
   return response.toResetCodeResponse();
 } on DioException catch (e) {
-  final message=(e.error as AppErrors).errorMessage;
-
-  throw ServerError(errorMessage: message);
+  if (e.error is AppErrors) {
+    throw e.error as AppErrors;
+  }
+  throw ServerError(errorMessage: e.message ?? 'Something went wrong');
 }
   }
 }

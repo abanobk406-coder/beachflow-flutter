@@ -24,8 +24,10 @@ class LoginRemoteDataSourceImpl implements LoginRemoteDataSource{
   
   return loginResponse.toLoginResponse();
 } on DioException catch (e) {
-  String message=(e.error as AppErrors).errorMessage;
-  throw ServerError(errorMessage: message);
+  if (e.error is AppErrors) {
+    throw e.error as AppErrors;
+  }
+  throw ServerError(errorMessage: e.message ?? 'Something went wrong');
 }
 
 

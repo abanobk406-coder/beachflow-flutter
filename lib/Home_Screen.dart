@@ -6,7 +6,7 @@ import 'package:por2/myauto.dart';
 import 'package:por2/notification.dart';
 import 'package:por2/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:por2/profile.dart';
+import 'package:por2/features/profile/presentation/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     MyAutoSlider(),
     const BookingsPage(),
     const FavoritesTab(),
-    const ProfileSettings(),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index, BuildContext context) async {
@@ -58,10 +58,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       centerTitle: false,
                       title: Row(
                         children: [
-                          CircleAvatar(
-                            radius: 18,
-                            backgroundImage: NetworkImage(
-                              "https://i.pravatar.cc/300",
+                          Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey.shade200,
+                            ),
+                            child: ClipOval(
+                              child: Image.network(
+                                "https://i.pravatar.cc/300",
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Icons.person, size: 20, color: Colors.grey),
+                              ),
                             ),
                           ),
                           SizedBox(width: 10),

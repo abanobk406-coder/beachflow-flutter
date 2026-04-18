@@ -18,11 +18,12 @@ class SharedPreferencesUtils{
   }
 
 
-  static  Future<bool> deleteToken({required String key})async{
-    SharedPreferences prefs=await SharedPreferences.getInstance();
+  static Future<bool> deleteToken({required String key}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.remove(key);
+  }
 
-   return prefs.remove(key);
-  } 
-
-
+  static Future<SharedPreferences> getPreferences() async {
+    return await SharedPreferences.getInstance();
+  }
 }

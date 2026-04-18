@@ -27,16 +27,18 @@ class LoginViewModel extends Cubit<LoginStates>{
     
     LoginRequest loginRequest=LoginRequest(email: emailController.text,password: passwordController.text);
     
-    var loginResponse=await  loginUseCase.invoke(loginRequest: loginRequest);
+  var loginResponse=await loginUseCase.invoke(loginRequest: loginRequest);
     
-    emit(LoginSuccessState(loginResponse: loginResponse));
-}on AppErrors catch (e){
+  emit(LoginSuccessState(loginResponse: loginResponse));
+} on AppErrors catch (e) {
   emit(LoginErrorState(message: e.errorMessage));
-}
- on DioException catch (e) {
-  final message=(e.error is AppErrors)
-  ?(e.error as AppErrors).errorMessage:e.message;
-  emit(LoginErrorState(message: e.message??'UnExpected Error Occurred'));
+} on DioException catch (e) {
+  final message = (e.error is AppErrors)
+      ? (e.error as AppErrors).errorMessage
+      : (e.message ?? 'حدث خطأ غير متوقع');
+  emit(LoginErrorState(message: message));
+} catch (e) {
+  emit(LoginErrorState(message: 'حدث خطأ غير متوقع'));
 }
       }
  

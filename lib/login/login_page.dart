@@ -6,6 +6,7 @@ import 'package:por2/features/auth/presentation/screens/forget_password/forget_p
 import 'package:por2/login/cubit/login_states.dart';
 import 'package:por2/login/cubit/login_view_model.dart';
 import 'package:por2/shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -63,6 +64,11 @@ class _LoginPageState extends State<LoginPage> {
                         key: 'token',
                         value: state.loginResponse.token ?? '',
                       );
+                      SharedPreferences.getInstance().then((prefs) {
+                        prefs.setBool('isLoggedIn', true);
+                        prefs.setString('userName', state.loginResponse.user?.name ?? '');
+                        prefs.setString('userEmail', state.loginResponse.user?.email ?? '');
+                      });
 
                       Navigator.pushReplacement(
                         context,
